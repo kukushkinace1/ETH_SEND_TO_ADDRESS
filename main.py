@@ -69,7 +69,7 @@ for private in private_keys:
         logger.info(f"{wallet} send to {WITHDRAW_ACC[private]}")
         status = web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360).status
         if status == 1:
-            logger.success(f"https://etherscan.io/tx/{tx_hash.hex()}")
+            logger.success(f"tx: https://etherscan.io/tx/{tx_hash.hex()}")
         else:
             logger.error(f'[{wallet}] transaction failed!')
     except Exception as err:
