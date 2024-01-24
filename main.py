@@ -55,7 +55,7 @@ for private in private_keys:
         # Подготовьте данные для транзакции
         tx = {
             'from': wallet,
-            'to': WITHDRAW_ACC[private],
+            'to': web3.to_checksum_address(WITHDRAW_ACC[private]),
             'chainId': web3.eth.chain_id,
             'nonce': web3.eth.get_transaction_count(wallet),
             'value': amount_to_send,
@@ -66,9 +66,8 @@ for private in private_keys:
 
         signed_tx = web3.eth.account.sign_transaction(tx, private)
         tx_hash = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
-        logger.success(f"{wallet} send to {WITHDRAW_ACC[private]}")
+        logger.info(f"{wallet} send to {WITHDRAW_ACC[private]}")
         status = web3.eth.wait_for_transaction_receipt(tx_hash, timeout=360).status
-
         if status == 1:
             logger.success(f"https://etherscan.io/tx/{tx_hash.hex()}")
         else:
